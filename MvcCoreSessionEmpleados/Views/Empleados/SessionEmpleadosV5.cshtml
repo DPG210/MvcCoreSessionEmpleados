@@ -43,11 +43,33 @@ else
     {
         <li class="list-group-item">
             @empleado.Apellido
-            <a asp-controller="Empleados" 
-            asp-action="SessionEmpleadosV5" 
-            asp-route-idfavorito="@empleado.IdEmpleado">
+            @if(favoritos == null){
+            <a asp-controller="Empleados"
+               asp-action="SessionEmpleadosV5"
+               asp-route-idfavorito="@empleado.IdEmpleado">
                 Favorito
             </a>
+            }
+            else
+            {
+                //DEBEMOS PREGUNTAR SI EXISTE EL EMPLEADO CON EL ID QUE TENEMOS ALMACENADO
+                //BUSCAMOS DENTRO DE FAVORITO SI ESTA NUESTRO EMPLEADO
+                Empleado empFavorito=
+                    favoritos.Find(x=>x.IdEmpleado == @empleado.IdEmpleado);
+                if(empFavorito==null)
+                {
+                    <a asp-controller="Empleados"
+                       asp-action="SessionEmpleadosV5"
+                       asp-route-idfavorito="@empleado.IdEmpleado">
+                        Favorito
+                    </a>
+                }
+                else
+                {
+                    <img src="~/images/x.jpg" style="width:40px;height:40px"/>
+                }
+
+            }
             @*PREGUNTAMOS SI EXISTE EL EMPLEADO EN SESSION*@
             @if (ids == null)
             {
